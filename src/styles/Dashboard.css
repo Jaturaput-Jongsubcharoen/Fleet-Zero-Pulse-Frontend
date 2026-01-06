@@ -128,3 +128,125 @@
 .empty-hint {
   pointer-events: none;
 }
+
+
+
+/*----------------------------------------------*/
+
+
+/* Prevent empty hint blocking drop */
+.empty-hint { pointer-events: none; }
+
+/* ---------- Modal ---------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 9999;
+}
+
+.modal {
+  width: min(720px, 95vw);
+  border: 1px solid #1f1f1f;
+  border-radius: 16px;
+  background: #0f0f0f;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid #1f1f1f;
+  background: #121212;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.modal-close {
+  background: transparent;
+  border: 1px solid #2a2a2a;
+  color: white;
+  border-radius: 10px;
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+.modal-body {
+  padding: 16px;
+}
+
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.snapshot-card {
+  border: 1px solid #1f1f1f;
+  background: #101010;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.snapshot-label {
+  font-size: 12px;
+  opacity: 0.75;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.snapshot-value {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+.snapshot-notes {
+  border: 1px solid #1f1f1f;
+  background: #101010;
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.snapshot-note-text {
+  font-size: 13px;
+  opacity: 0.9;
+  line-height: 1.4;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid #1f1f1f;
+  background: #121212;
+}
+
+.btn {
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+  cursor: pointer;
+  font-weight: 800;
+  color: rgb(0, 0, 0);
+}
+
+.btn.primary {
+  background: #1f8f3a;
+  border-color: #1a3a22;
+}
+
+.btn.secondary {
+  background: transparent;
+}

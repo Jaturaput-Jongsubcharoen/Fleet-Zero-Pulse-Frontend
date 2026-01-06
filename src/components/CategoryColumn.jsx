@@ -3,7 +3,13 @@ import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 import { useDroppable } from "@dnd-kit/core";
 import BusChip from "./BusChip";
 
-export default function CategoryColumn({ categoryId, title, busIds, busMap }) {
+export default function CategoryColumn({
+  categoryId,
+  title,
+  busIds,
+  busMap,
+  onBusOpenSnapshot,
+}) {
   const { setNodeRef, isOver } = useDroppable({ id: categoryId });
 
   return (
@@ -29,7 +35,11 @@ export default function CategoryColumn({ categoryId, title, busIds, busMap }) {
             ) : (
               busIds.map((busId) => (
                 <div key={busId} style={{ marginBottom: 10 }}>
-                  <BusChip id={busId} label={busMap[busId].label} />
+                  <BusChip
+                    id={busId}
+                    label={busMap[busId].label}
+                    onDoubleClick={() => onBusOpenSnapshot(busId)}
+                  />
                 </div>
               ))
             )}

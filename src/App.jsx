@@ -25,6 +25,8 @@ import {
   INITIAL_FACILITY_BOARDS,
 } from "./data/fleetData";
 
+import BusSnapshotModal from "./components/BusSnapshotModal";
+
 export default function App() {
   const facilities = useMemo(() => FACILITIES, []);
   const [selectedFacilityId, setSelectedFacilityId] = useState("facility_a");
@@ -115,7 +117,32 @@ export default function App() {
   const selectedFacilityName =
     facilities.find((f) => f.id === selectedFacilityId)?.name ?? "Facility";
 
-  return (
+
+  const [snapshotBusId, setSnapshotBusId] = useState(null);
+
+  const snapshotDataByBusId = useMemo(() => ({
+    "bus-101": { batteryPct: 78, alertCount: 1, lastUpdated: "Today 10:42", notes: "Scheduled inspection" },
+    "bus-106": { batteryPct: 64, alertCount: 0, lastUpdated: "Today 09:12", notes: "Operating normal" },
+  }), []);
+
+  const openSnapshot = (busId) => setSnapshotBusId(busId);
+  const closeSnapshot = () => setSnapshotBusId(null);
+
+  const snapshotBus = snapshotBusId
+    ? {
+        ...busMap[snapshotBusId],
+        status: findContainer(snapshotBusId), // current column status
+        ...(snapshotDataByBusId[snapshotBusId] ?? {}),
+      }
+    : null;
+
+  const viewFullDetails = (bus) => {
+    // later: navigate to a details page
+    // for now: example
+    alert(`Go to full details for Bus ${bus.label}`);
+  };
+
+return (
     <div className="page">
       <div className="header">
         <div>
@@ -147,10 +174,11 @@ export default function App() {
                 strategy={verticalListSortingStrategy}
               >
                 <CategoryColumn
-                  categoryId={c.id}     
+                  categoryId={c.id}
                   title={c.label}
                   busIds={board[c.id]}
                   busMap={busMap}
+                  onBusOpenSnapshot={openSnapshot}
                 />
               </SortableContext>
             ))}
@@ -158,13 +186,19 @@ export default function App() {
 
           <DragOverlay>
             {activeId ? (
-              <div className="drag-overlay">
-                ⠿ Bus {busMap[activeId]?.label}
-              </div>
+              <div className="drag-overlay">⠿ Bus {busMap[activeId]?.label}</div>
             ) : null}
           </DragOverlay>
         </DndContext>
       </div>
+
+      {/* Put the modal here (near the bottom, still inside .page) */}
+      <BusSnapshotModal
+        open={!!snapshotBusId}
+        bus={snapshotBus}
+        onClose={closeSnapshot}
+        onViewFull={viewFullDetails}
+      />
     </div>
   );
 }

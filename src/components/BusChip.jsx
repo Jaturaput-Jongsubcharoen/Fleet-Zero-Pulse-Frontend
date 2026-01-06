@@ -2,7 +2,7 @@ import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
-export default function BusChip({ id, label }) {
+export default function BusChip({ id, label, onDoubleClick }) {
   const {
     attributes,
     listeners,
@@ -23,6 +23,7 @@ export default function BusChip({ id, label }) {
       ref={setNodeRef}
       style={style}
       className="bus-chip"
+      onDoubleClick={onDoubleClick}
       {...attributes}
       {...listeners}
     >
