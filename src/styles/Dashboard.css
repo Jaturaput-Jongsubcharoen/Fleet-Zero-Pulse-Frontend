@@ -1,0 +1,124 @@
+/* Facility selector */
+.facility-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.facility-label {
+  font-size: 13px;
+  opacity: 0.85;
+  font-weight: 600;
+}
+
+.facility-select {
+  background: #101010;
+  border: 1px solid #1f1f1f;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 10px;
+  outline: none;
+}
+
+/* Facility card spacing */
+.facility-title {
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+/* Make bus chips GREEN */
+.bus-chip {
+  width: 100%;
+  text-align: left;
+  cursor: grab;
+  user-select: none;
+
+  padding: 10px 12px;
+  border-radius: 10px;
+
+  border: 1px solid #1a3a22;
+  background: #1f8f3a;      /* green */
+  color: white;
+
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Optional: hover */
+.bus-chip:hover {
+  filter: brightness(1.05);
+}
+
+/*------------------------------------------------------------------------*/
+
+/* Center the whole dashboard nicely */
+.page {
+  min-height: 100vh;
+  background: #0b0b0b;
+  color: white;
+  padding: 24px;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Card */
+.card {
+  border: 1px solid #1f1f1f;
+  border-radius: 16px;
+  background: #101010;
+  padding: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+}
+
+/* IMPORTANT: 4 columns like screenshot example */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(220px, 1fr));
+  gap: 16px;
+  align-items: start;
+}
+
+/* Column */
+.column {
+  border: 1px solid #1f1f1f;
+  border-radius: 14px;
+  background: #121212;
+  overflow: hidden;
+  min-height: 260px;
+}
+
+.column-header {
+  padding: 12px 14px;
+  font-weight: 900;
+  font-size: 14px;
+  border-bottom: 1px solid #1f1f1f;
+  background: #141414;
+}
+
+.column-body {
+  padding: 14px;
+}
+
+.bus-list {
+  min-height: 190px;
+  border: 1px dashed #2a2a2a;
+  border-radius: 12px;
+  padding: 10px;
+  background: #0e0e0e;
+}
+
+/* responsive fallback */
+@media (max-width: 1100px) {
+  .grid { grid-template-columns: repeat(2, minmax(240px, 1fr)); }
+}
+@media (max-width: 650px) {
+  .grid { grid-template-columns: 1fr; }
+}
