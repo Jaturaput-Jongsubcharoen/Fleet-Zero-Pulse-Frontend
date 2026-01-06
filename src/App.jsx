@@ -29,6 +29,7 @@ import BusSnapshotModal from "./components/BusSnapshotModal";
 
 import { Routes, Route, useNavigate } from "react-router-dom";
 import BusDetailPage from "./pages/BusDetailPage";
+import StationBusPage from "./pages/StationBusPage/StationBusPage";
 
 export default function App() {
   const navigate = useNavigate();
@@ -42,6 +43,25 @@ export default function App() {
     ...INITIAL_FACILITY_BOARDS,
   }));
 
+  // Shared editable bus details (used by Station page and Detail page later)
+  const [busDetails, setBusDetails] = useState(() => ({
+    "bus-101": {
+      status: "Under Repair",
+      lastService: "2024-01-15",
+      notes: "Engine maintenance",
+    },
+    "bus-102": {
+      status: "Scheduled Maintenance",
+      lastService: "2024-01-10",
+      notes: "Regular checkup",
+    },
+    "bus-103": {
+      status: "Waiting Parts",
+      lastService: "2024-01-05",
+      notes: "Brake replacement needed",
+    },
+  }));
+
   const [activeId, setActiveId] = useState(null);
 
   const sensors = useSensors(
@@ -50,7 +70,6 @@ export default function App() {
 
   const board = facilityBoards[selectedFacilityId];
 
-  // Find which column currently contains this bus ID
   const findContainer = (itemId) => {
     for (const key of Object.keys(board)) {
       if (board[key].includes(itemId)) return key;
@@ -69,19 +88,13 @@ export default function App() {
     const overId = over.id;
 
     const from = findContainer(activeItemId);
-
-    // If dropped on an EMPTY column, overId will be the column id (e.g., "storage")
-    // If dropped on a BUS, overId will be a bus id (e.g., "bus-105") so we find its container
     const to = board[overId] ? overId : findContainer(overId);
 
     if (!from || !to) return;
 
-    // Reorder inside same column (only when dropping on another bus)
     if (from === to) {
       const oldIndex = board[from].indexOf(activeItemId);
       const newIndex = board[to].indexOf(overId);
-
-      // If you dropped on the column container itself (not on a bus), do nothing
       if (newIndex === -1) return;
 
       setFacilityBoards((prev) => ({
@@ -94,14 +107,12 @@ export default function App() {
       return;
     }
 
-    // Move between columns
     setFacilityBoards((prev) => {
       const current = prev[selectedFacilityId];
 
       const nextFrom = current[from].filter((id) => id !== activeItemId);
       const nextTo = [...current[to]];
 
-      // If dropped on a bus, insert before that bus
       const overIndex = nextTo.indexOf(overId);
       const insertIndex = overIndex === -1 ? nextTo.length : overIndex;
 
@@ -121,28 +132,8 @@ export default function App() {
   const selectedFacilityName =
     facilities.find((f) => f.id === selectedFacilityId)?.name ?? "Facility";
 
-  // -------------------------
   // Snapshot modal state
-  // -------------------------
   const [snapshotBusId, setSnapshotBusId] = useState(null);
-
-  const snapshotDataByBusId = useMemo(
-    () => ({
-      "bus-101": {
-        batteryPct: 78,
-        alertCount: 1,
-        lastUpdated: "Today 10:42",
-        notes: "Scheduled inspection",
-      },
-      "bus-106": {
-        batteryPct: 64,
-        alertCount: 0,
-        lastUpdated: "Today 09:12",
-        notes: "Operating normal",
-      },
-    }),
-    []
-  );
 
   const openSnapshot = (busId) => setSnapshotBusId(busId);
   const closeSnapshot = () => setSnapshotBusId(null);
@@ -151,19 +142,15 @@ export default function App() {
     ? {
         ...busMap[snapshotBusId],
         status: findContainer(snapshotBusId),
-        ...(snapshotDataByBusId[snapshotBusId] ?? {}),
+        ...(busDetails[snapshotBusId] ?? {}),
       }
     : null;
 
   const viewFullDetails = (bus) => {
-    // ✅ Close modal then navigate to details page
     closeSnapshot();
     navigate(`/bus/${bus.id}`);
   };
 
-  // -------------------------
-  // Dashboard page JSX
-  // -------------------------
   const DashboardPage = (
     <>
       <div className="header">
@@ -228,6 +215,19 @@ export default function App() {
       <Routes>
         <Route path="/" element={DashboardPage} />
         <Route path="/bus/:busId" element={<BusDetailPage />} />
+
+        {/* Station page route */}
+        <Route
+          path="/station/:facilityId"
+          element={
+            <StationBusPage
+              busDetails={busDetails}
+              setBusDetails={setBusDetails}
+              facilityBoards={facilityBoards}
+              setFacilityBoards={setFacilityBoards}
+            />
+          }
+        />
       </Routes>
     </div>
   );

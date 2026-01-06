@@ -1,0 +1,178 @@
+/* =========================
+   Station Bus Page (Mobile / Tablet)
+========================= */
+
+.station {
+  padding-bottom: 120px; /* space for sticky editor */
+}
+
+/* Top bar */
+.station-topbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.station-title {
+  font-size: 20px;
+  font-weight: 900;
+}
+
+/* Sections */
+.station-section {
+  margin-top: 16px;
+}
+
+.station-section-title {
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+/* Bus list */
+.station-list {
+  display: grid;
+  gap: 12px;
+}
+
+.station-card {
+  border: 1px solid #1f1f1f;
+  background: #101010;
+  border-radius: 14px;
+  padding: 14px;
+}
+
+.station-card-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.station-bus-name {
+  font-size: 16px;
+  font-weight: 900;
+}
+
+/* Metadata */
+.station-meta {
+  margin-top: 10px;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  opacity: 0.92;
+}
+
+.muted {
+  opacity: 0.7;
+  font-weight: 700;
+}
+
+.mutedLabel {
+  opacity: 0.7;
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+/* =========================
+   Buttons (Station page)
+========================= */
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 900;
+  border: 1px solid #2a2a2a;
+  cursor: pointer;
+  color: #000000;
+}
+
+/* Cancel button */
+.btn.secondary {
+  background: #2a2a2a;   /* not black */
+  border-color: #3a3a3a;
+}
+
+/* Save button */
+.btn.primary {
+  background: #1f8f3a;   /* green */
+  border-color: #1a3a22;
+}
+
+/* =========================
+   Sticky Editor (Bottom)
+========================= */
+
+.station-editor {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  border-top: 1px solid #1f1f1f;
+  background: #0f0f0f;
+  padding: 14px;
+}
+
+.station-editor-title {
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+/* Form fields */
+.field {
+  display: grid;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.field span {
+  font-size: 12px;
+  opacity: 0.75;
+  font-weight: 800;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+  background: #0e0e0e;
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* Editor actions */
+.station-editor-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.field select {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #2a2a2a;
+  background: #0e0e0e;
+  color: white;
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* =========================
+   Mobile tweaks
+========================= */
+
+@media (max-width: 600px) {
+  .station-topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .station-title {
+    font-size: 18px;
+  }
+}
+
