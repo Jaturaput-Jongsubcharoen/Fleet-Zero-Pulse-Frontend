@@ -1,3 +1,17 @@
+.title {
+  font-size: 30px;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: rgb(0, 0, 0);
+}
+
+.subtitle {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: rgb(50, 50, 50);
+}
+
 /* Facility selector */
 .facility-bar {
   display: flex;
@@ -58,7 +72,7 @@
 /* Center the whole dashboard nicely */
 .page {
   min-height: 100vh;
-  background: #0b0b0b;
+  background: #777777;
   color: white;
   padding: 24px;
   font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;

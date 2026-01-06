@@ -116,6 +116,8 @@ const saveEdit = () => {
 
   return (
     <div className="page station">
+      <div className="title">Fleet Zero Pulse</div>
+      <div className="subtitle">Vehicle Management | Dashboard Editor</div>
       <div className="station-topbar">
         <button className="btn secondary" onClick={() => navigate("/")}>
           Back to Dashboard
