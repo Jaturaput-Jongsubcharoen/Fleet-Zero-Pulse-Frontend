@@ -1,8 +1,11 @@
 import React from "react";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { useDroppable } from "@dnd-kit/core";
 import BusChip from "./BusChip";
 
-export default function CategoryColumn({ title, busIds, busMap }) {
+export default function CategoryColumn({ categoryId, title, busIds, busMap }) {
+  const { setNodeRef, isOver } = useDroppable({ id: categoryId });
+
   return (
     <div className="column">
       <div className="column-header">
@@ -14,7 +17,13 @@ export default function CategoryColumn({ title, busIds, busMap }) {
 
       <div className="column-body">
         <SortableContext items={busIds} strategy={verticalListSortingStrategy}>
-          <div className="bus-list">
+          <div
+            ref={setNodeRef}
+            className="bus-list"
+            style={{
+              outline: isOver ? "2px solid rgba(46, 204, 113, 0.6)" : "none",
+            }}
+          >
             {busIds.length === 0 ? (
               <div className="empty-hint">Drop buses here</div>
             ) : (

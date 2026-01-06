@@ -7,7 +7,11 @@ import {
   useSensors,
   closestCenter,
 } from "@dnd-kit/core";
-import { SortableContext, arrayMove, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 import "./styles/Dashboard.css";
 
@@ -39,6 +43,7 @@ export default function App() {
 
   const board = facilityBoards[selectedFacilityId];
 
+  // Find which column currently contains this bus ID
   const findContainer = (itemId) => {
     for (const key of Object.keys(board)) {
       if (board[key].includes(itemId)) return key;
@@ -53,14 +58,24 @@ export default function App() {
     setActiveId(null);
     if (!over) return;
 
-    const from = findContainer(active.id);
-    const to = findContainer(over.id) ?? over.id;
-    if (!from || !to || !board[to]) return;
+    const activeItemId = active.id;
+    const overId = over.id;
 
-    // reorder inside same column
+    const from = findContainer(activeItemId);
+
+    // IMPORTANT:
+    // If dropped on an EMPTY column, overId will be the column id (e.g., "storage")
+    // If dropped on a BUS, overId will be a bus id (e.g., "bus-105") so we find its container
+    const to = board[overId] ? overId : findContainer(overId);
+
+    if (!from || !to) return;
+
+    // Reorder inside same column (only when dropping on another bus)
     if (from === to) {
-      const oldIndex = board[from].indexOf(active.id);
-      const newIndex = board[to].indexOf(over.id);
+      const oldIndex = board[from].indexOf(activeItemId);
+      const newIndex = board[to].indexOf(overId);
+
+      // If you dropped on the column container itself (not on a bus), do nothing
       if (newIndex === -1) return;
 
       setFacilityBoards((prev) => ({
@@ -73,15 +88,25 @@ export default function App() {
       return;
     }
 
-    // move across columns
+    // Move between columns
     setFacilityBoards((prev) => {
       const current = prev[selectedFacilityId];
+
+      const nextFrom = current[from].filter((id) => id !== activeItemId);
+      const nextTo = [...current[to]];
+
+      // If dropped on a bus, insert before that bus
+      const overIndex = nextTo.indexOf(overId);
+      const insertIndex = overIndex === -1 ? nextTo.length : overIndex;
+
+      nextTo.splice(insertIndex, 0, activeItemId);
+
       return {
         ...prev,
         [selectedFacilityId]: {
           ...current,
-          [from]: current[from].filter((id) => id !== active.id),
-          [to]: [...current[to], active.id],
+          [from]: nextFrom,
+          [to]: nextTo,
         },
       };
     });
@@ -122,6 +147,7 @@ export default function App() {
                 strategy={verticalListSortingStrategy}
               >
                 <CategoryColumn
+                  categoryId={c.id}     
                   title={c.label}
                   busIds={board[c.id]}
                   busMap={busMap}

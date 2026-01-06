@@ -122,3 +122,9 @@
 @media (max-width: 650px) {
   .grid { grid-template-columns: 1fr; }
 }
+
+
+/*--------------------------------------------*/
+.empty-hint {
+  pointer-events: none;
+}

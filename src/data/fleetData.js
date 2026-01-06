@@ -1,4 +1,5 @@
 import fleetConfig from "./fleetConfig.json";
+import initialBoards from "./initialBoards.json";
 
 /* =========================
    Export static config
@@ -40,17 +41,4 @@ export function buildBusMap() {
    Initial dashboard state
    (per facility, per category)
 ========================= */
-export const INITIAL_FACILITY_BOARDS = {
-  facility_a: {
-    maintenance: ["bus-101", "bus-102", "bus-103"],
-    storage: ["bus-104", "bus-105"],
-    in_service: ["bus-106", "bus-107", "bus-108", "bus-109"],
-    long_term: ["bus-110"],
-  },
-  facility_b: {
-    maintenance: ["bus-201", "bus-202"],
-    storage: ["bus-204", "bus-205"],
-    in_service: ["bus-206", "bus-207"],
-    long_term: ["bus-208", "bus-209"],
-  },
-};
+export const INITIAL_FACILITY_BOARDS = initialBoards;
