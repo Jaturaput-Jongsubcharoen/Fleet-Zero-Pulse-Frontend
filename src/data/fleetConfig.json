@@ -1,0 +1,12 @@
+{
+  "categories": [
+    { "id": "maintenance", "label": "Maintenance" },
+    { "id": "storage", "label": "Storage" },
+    { "id": "in_service", "label": "In-Service" },
+    { "id": "long_term", "label": "Long-term Maintenance" }
+  ],
+  "facilities": [
+    { "id": "facility_a", "name": "Facility A" },
+    { "id": "facility_b", "name": "Facility B" }
+  ]
+}
