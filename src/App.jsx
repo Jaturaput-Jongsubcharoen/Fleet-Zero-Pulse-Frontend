@@ -27,7 +27,12 @@ import {
 
 import BusSnapshotModal from "./components/BusSnapshotModal";
 
+import { Routes, Route, useNavigate } from "react-router-dom";
+import BusDetailPage from "./pages/BusDetailPage";
+
 export default function App() {
+  const navigate = useNavigate();
+
   const facilities = useMemo(() => FACILITIES, []);
   const [selectedFacilityId, setSelectedFacilityId] = useState("facility_a");
 
@@ -65,7 +70,6 @@ export default function App() {
 
     const from = findContainer(activeItemId);
 
-    // IMPORTANT:
     // If dropped on an EMPTY column, overId will be the column id (e.g., "storage")
     // If dropped on a BUS, overId will be a bus id (e.g., "bus-105") so we find its container
     const to = board[overId] ? overId : findContainer(overId);
@@ -117,13 +121,28 @@ export default function App() {
   const selectedFacilityName =
     facilities.find((f) => f.id === selectedFacilityId)?.name ?? "Facility";
 
-
+  // -------------------------
+  // Snapshot modal state
+  // -------------------------
   const [snapshotBusId, setSnapshotBusId] = useState(null);
 
-  const snapshotDataByBusId = useMemo(() => ({
-    "bus-101": { batteryPct: 78, alertCount: 1, lastUpdated: "Today 10:42", notes: "Scheduled inspection" },
-    "bus-106": { batteryPct: 64, alertCount: 0, lastUpdated: "Today 09:12", notes: "Operating normal" },
-  }), []);
+  const snapshotDataByBusId = useMemo(
+    () => ({
+      "bus-101": {
+        batteryPct: 78,
+        alertCount: 1,
+        lastUpdated: "Today 10:42",
+        notes: "Scheduled inspection",
+      },
+      "bus-106": {
+        batteryPct: 64,
+        alertCount: 0,
+        lastUpdated: "Today 09:12",
+        notes: "Operating normal",
+      },
+    }),
+    []
+  );
 
   const openSnapshot = (busId) => setSnapshotBusId(busId);
   const closeSnapshot = () => setSnapshotBusId(null);
@@ -131,19 +150,22 @@ export default function App() {
   const snapshotBus = snapshotBusId
     ? {
         ...busMap[snapshotBusId],
-        status: findContainer(snapshotBusId), // current column status
+        status: findContainer(snapshotBusId),
         ...(snapshotDataByBusId[snapshotBusId] ?? {}),
       }
     : null;
 
   const viewFullDetails = (bus) => {
-    // later: navigate to a details page
-    // for now: example
-    alert(`Go to full details for Bus ${bus.label}`);
+    // ✅ Close modal then navigate to details page
+    closeSnapshot();
+    navigate(`/bus/${bus.id}`);
   };
 
-return (
-    <div className="page">
+  // -------------------------
+  // Dashboard page JSX
+  // -------------------------
+  const DashboardPage = (
+    <>
       <div className="header">
         <div>
           <div className="title">Fleet Zero Pulse</div>
@@ -192,13 +214,21 @@ return (
         </DndContext>
       </div>
 
-      {/* Put the modal here (near the bottom, still inside .page) */}
       <BusSnapshotModal
         open={!!snapshotBusId}
         bus={snapshotBus}
         onClose={closeSnapshot}
         onViewFull={viewFullDetails}
       />
+    </>
+  );
+
+  return (
+    <div className="page">
+      <Routes>
+        <Route path="/" element={DashboardPage} />
+        <Route path="/bus/:busId" element={<BusDetailPage />} />
+      </Routes>
     </div>
   );
 }

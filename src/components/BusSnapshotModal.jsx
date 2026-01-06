@@ -4,7 +4,7 @@ export default function BusSnapshotModal({
   open,
   bus,
   onClose,
-  onViewFullDetails,
+  onViewFull,
 }) {
   if (!open || !bus) return null;
 
@@ -54,7 +54,7 @@ export default function BusSnapshotModal({
           </button>
           <button
             className="btn btn-primary"
-            onClick={() => onViewFullDetails(bus)}
+            onClick={() => onViewFull(bus)}
           >
             View Full Details
           </button>
